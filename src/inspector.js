@@ -27,7 +27,7 @@ const Inspector = ( props ) => {
 
 	return (
 		<InspectorControls>
-			<PanelBody title={ __( 'Content', 'ib-testimonial' ) }>
+			<PanelBody title={ __( 'Image', 'ib-testimonial' ) }>
 				<ImageControl
 					i18n={ {
 						imageSize: __( 'Image Size', 'ib-testimonial' ),
@@ -40,6 +40,7 @@ const Inspector = ( props ) => {
 					onChange={ ( imageData ) => {
 						setAttributes( { imageData } );
 					} }
+					enableImageSizes
 				/>
 
 				<SelectControl

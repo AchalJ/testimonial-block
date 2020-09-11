@@ -26,13 +26,13 @@ const attributes = {
 		default: {
 			id: undefined,
 			alt: '',
-			size: 'thumbnail',
+			size: undefined,
 			url: '',
 		},
 	},
 	imageSize: {
 		type: 'number',
-		default: 30,
+		default: 50,
 	},
 	imageBorderRadius: {
 		type: 'number',

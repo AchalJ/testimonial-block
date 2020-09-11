@@ -23,15 +23,16 @@ const ALLOWED_MEDIA_TYPES = [ 'image' ];
 
 const ImageControl = ( props ) => {
 	const { image, i18n } = props;
-	const defaultState = {
+	const defaultData = {
 		id: undefined,
 		alt: '',
-		size: 'thumbnail',
+		size: 'full',
 		url: '',
 	};
-	const imageObj = props.value || defaultState;
+	const imageObj = props.value || defaultData;
 	const imageId = imageObj.id;
-	const imageSize = imageObj.size || 'thumbnail';
+	const imageSize = imageObj.size || 'full';
+	const { enableImageSizes } = props;
 
 	const labels = {
 		uploadImage:
@@ -49,22 +50,20 @@ const ImageControl = ( props ) => {
 
 	const onUpdateImage = ( image ) => {
 		const { id, sizes, alt } = image;
+		const size = sizes[ imageSize ] ? imageSize : 'full';
+		const url = sizes[ size ].url;
 
 		setImageData( {
 			id,
 			alt,
-			size: imageSize,
-			url: sizes[ imageSize ].url,
+			size,
+			sizes,
+			url,
 		} );
 	};
 
 	const onRemoveImage = () => {
-		setImageData( {
-			id: undefined,
-			alt: '',
-			size: imageSize,
-			url: '',
-		} );
+		setImageData( defaultData );
 	};
 
 	const onSizeChange = ( size ) => {
@@ -73,6 +72,20 @@ const ImageControl = ( props ) => {
 			setImageData( { ...imageData, size, url } );
 		}
 	};
+
+	const getImageSizes = () => {
+		const full = [ { value: 'full', label: 'full' } ];
+		let sizes = [];
+		if ( imageData.sizes ) {
+			Object.keys( imageData.sizes ).map( ( size ) => {
+				sizes.push( {
+					value: size, label: size
+				} );
+			} )
+		}
+
+		return 0 === sizes.length ? full : sizes;
+	}
 
 	return (
 		<BaseControl label={ props.label } className="ib-block-control__image">
@@ -132,17 +145,12 @@ const ImageControl = ( props ) => {
 					</MediaUploadCheck>
 				</div>
 			) }
-			{ !! imageId && image && (
+			{ !! enableImageSizes && !! imageId && image && (
 				<SelectControl
 					label={ labels.imageSize }
 					className="ib-block-control__image-size"
 					value={ imageSize }
-					options={ [
-						{ label: __( 'Full' ), value: 'full' },
-						{ label: __( 'Large' ), value: 'large' },
-						{ label: __( 'Medium' ), value: 'medium' },
-						{ label: __( 'Thumbnail' ), value: 'thumbnail' },
-					] }
+					options={ getImageSizes() }
 					onChange={ onSizeChange }
 				/>
 			) }
