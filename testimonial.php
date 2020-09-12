@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:     WP Testimonial Block
+ * Plugin Name:     Testimonial Block
  * Description:     A block to display testimonial on the site.
  * Version:         1.0.0
  * Author:          Achal Jain, Mahbub Hasan Imon
