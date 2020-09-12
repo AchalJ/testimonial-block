@@ -2,19 +2,18 @@ name: Plugin asset/readme update
 on:
   push:
     branches:
-    - trunk
+    - stable
 jobs:
-  trunk:
-    name: Push to trunk
+  stable:
+    name: Push to stable
 	runs-on: ubuntu-latest
 	if: startsWith( github.repository, 'AchalJ/' )
 
 	steps:
-		- name: Checkout source code
-			uses: actions/checkout@master
-    	- name: WordPress.org plugin asset/readme update
-      		uses: 10up/action-wordpress-plugin-asset-update@stable
-		env:
-			SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-			SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
-			SLUG: wp-testimonial-block
+	- uses: actions/checkout@master
+    - name: WordPress.org plugin asset/readme update
+      uses: 10up/action-wordpress-plugin-asset-update@stable
+	  env:
+		SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+		SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+		SLUG: wp-testimonial-block
